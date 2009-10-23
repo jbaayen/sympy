@@ -391,3 +391,9 @@ def test_issue1566():
     assert f.doit() == Rational(-1, 3)
     assert Integral(x*y, (x, None, y)).subs(y, t) == Integral(x*t, (x, None, t))
     assert Integral(x*y, (x, y, None)).subs(y, t) == Integral(x*t, (x, t, None))
+
+def test_doit():
+    e = Integral(Integral(2*x), (x, 0, 1))
+    assert e.doit() == Rational(1, 3)
+    # risch currently chokes on the contained integral.
+    #assert e.doit(deep = False) == e

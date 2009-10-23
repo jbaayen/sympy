@@ -126,10 +126,11 @@ class Piecewise(Function):
     def doit(self, **hints):
         newargs = []
         for e, c in self.args:
-            if isinstance(e, Basic):
-                e = e.doit()
-            if isinstance(c, Basic):
-                c = c.doit()
+            if hints.get('deep', True):
+                if isinstance(e, Basic):
+                    e = e.doit(**hints)
+                if isinstance(c, Basic):
+                    c = c.doit(**hints)
             newargs.append((e, c))
         return Piecewise(*newargs)
 
@@ -225,4 +226,3 @@ class Piecewise(Function):
             if cond: return S.One
             return S.Zero
         return None
-

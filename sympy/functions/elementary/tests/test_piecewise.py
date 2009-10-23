@@ -1,5 +1,5 @@
 from sympy import diff, Integral, integrate, log, oo, Piecewise, raises, \
-                  symbols, pi
+                  symbols, pi, Integral
 
 x,y = symbols('xy')
 
@@ -68,3 +68,9 @@ def test_piecewise():
     assert integrate(p, (x,-oo,oo)) == 2
     p = Piecewise((x, x < -10),(x**2, x <= -1),(x, 1 < x))
     raises(ValueError, "integrate(p,(x,-2,2))")
+
+def test_doit():
+    p1 = Piecewise((x, x < 1), (x**2, -1 <= x), (x, 3 < x))
+    p2 = Piecewise((x, x < 1), (Integral(2 * x), -1 <= x), (x, 3 < x))
+    assert p2.doit() == p1
+    assert p2.doit(deep = False) == p2
