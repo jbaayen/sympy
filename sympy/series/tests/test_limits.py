@@ -141,8 +141,11 @@ def test_doit():
     f = Integral(2 * x, x)
     l = Limit(f, x, oo)
     assert l.doit() == oo
+
+@XFAIL
+def test_doit2():
     # limit() breaks on the contained Integral.
-    # assert l.doit(deep = False) == l
+    assert l.doit(deep = False) == l
 
 def test_bug693a():
     assert sin(sin(x+1)+1).limit(x,0) == sin(sin(1)+1)

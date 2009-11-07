@@ -395,5 +395,8 @@ def test_issue1566():
 def test_doit():
     e = Integral(Integral(2*x), (x, 0, 1))
     assert e.doit() == Rational(1, 3)
+
+@XFAIL
+def test_doit2():
     # risch currently chokes on the contained integral.
-    #assert e.doit(deep = False) == e
+    assert e.doit(deep = False) == e
